@@ -3,7 +3,8 @@ import plotly.express as px
 import pandas as pd
 from sqlalchemy import select
 from core.db import SessionLocal
-from core.models import Team, Match, PredictionEvaluation
+from core.models import Season, Team, Match, PredictionEvaluation
+from analytics.standings import build_standings
 from core.repository import season_options
 
 
@@ -145,3 +146,48 @@ def render():
             st.dataframe(evaluation_rows, use_container_width=True, hide_index=True)
         else:
             st.info("Zatím nejsou vyhodnocené predikce. V Predikčním centru nejprve vypočítej predikci naplánovaného zápasu; po zadání výsledku se automaticky vyhodnotí.")
+
+        st.divider()
+        st.subheader("Historické porovnání sezón")
+        current_season = db.get(Season, sid)
+        other_seasons = list(db.scalars(
+            select(Season)
+            .where(Season.league_id == current_season.league_id, Season.id != sid)
+            .order_by(Season.name)
+        ))
+        if other_seasons:
+            chosen_seasons = st.multiselect(
+                "Vyber předchozí sezóny stejné soutěže",
+                [season.id for season in other_seasons],
+                format_func=lambda season_id: next(
+                    season.name for season in other_seasons if season.id == season_id
+                )
+            )
+            if chosen_seasons:
+                comparison_rows = []
+                for season_id in [sid] + chosen_seasons:
+                    season_obj = db.get(Season, season_id)
+                    season_teams = list(db.scalars(
+                        select(Team).where(Team.season_id == season_id)
+                    ))
+                    season_matches = list(db.scalars(
+                        select(Match).where(Match.season_id == season_id)
+                    ))
+                    completed = [
+                        match for match in season_matches
+                        if match.played and match.home_score is not None and match.away_score is not None
+                    ]
+                    table = build_standings(season_teams, completed)
+                    champion = table.iloc[0]["Tým"] if not table.empty else "—"
+                    goals = sum(match.home_score + match.away_score for match in completed)
+                    comparison_rows.append({
+                        "Sezóna": season_obj.name,
+                        "Odehrané zápasy": len(completed),
+                        "Celkem gólů": goals,
+                        "Průměr gólů na zápas": round(goals / len(completed), 2) if completed else 0,
+                        "Aktuální lídr / vítěz": champion,
+                        "Body lídra": int(table.iloc[0]["Body"]) if not table.empty else 0,
+                    })
+                st.dataframe(comparison_rows, use_container_width=True, hide_index=True)
+        else:
+            st.info("Tato soutěž zatím nemá další sezóny k porovnání.")
