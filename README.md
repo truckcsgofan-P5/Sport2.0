@@ -1,4 +1,4 @@
-# SportStats 2.0
+# SportStats 2.1
 
 Fotbalová analytická aplikace v Pythonu a Streamlitu s PostgreSQL, správou soutěží, sezón, týmů a zápasů, ligovou tabulkou, statistikami a predikčním modelem Elo + Poisson.
 
@@ -9,11 +9,11 @@ Fotbalová analytická aplikace v Pythonu a Streamlitu s PostgreSQL, správou so
 - Plánování zápasů, zadávání výsledků, editace a mazání
 - Ligová tabulka (body, skóre, rozdíl gólů)
 - Statistiky týmů a grafy
-- Predikce 1X2, očekávané góly, nejpravděpodobnější skóre a Elo žebříček
+- Predikce 1X2, očekávané góly, nejpravděpodobnější skóre, Elo žebříček a historie přesnosti predikcí
 - Uživatelské účty s bcrypt hashováním hesel
 - Import původního `sports_data.json`
 - PostgreSQL přes SQLAlchemy
-- Přepínání světlého a tmavého vzhledu
+- Jednotný tmavý vzhled DarkGreen s neonově zelenými akcenty
 
 ## Požadavky
 
@@ -80,7 +80,7 @@ streamlit run streamlit_app.py
 
 Aplikace vytvoří databázové tabulky. Pokud je nastaven `BOOTSTRAP_ADMIN_PASSWORD`, vytvoří prvního administrátora, pokud účet `BOOTSTRAP_ADMIN_USERNAME` ještě neexistuje.
 
-Při prvním spuštění je ve výchozím nastavení vytvořena také ukázková soutěž. Vypnout ji lze nastavením `SEED_DEMO_DATA=false`.
+Ukázková soutěž se ve výchozím nastavení nevytváří. Demo data lze výslovně zapnout nastavením `SEED_DEMO_DATA=true`.
 
 ## 5. Migrace původních dat
 
@@ -156,6 +156,13 @@ Toto je funkční výchozí projekt / MVP, ne auditovaná produkční služba.
 - xG není počítáno automaticky, protože původní data neobsahují střelecké události ani xG vstupy.
 - Při importu se duplicitní zápas identifikuje kombinací sezóny, data a pořadí domácí/hostující tým. Pokud máš v datech více stejných utkání ve stejný den, zkontroluj import ručně.
 
+## SportStats 2.1 – rozšíření
+
+- Dashboard odděluje poslední odehrané a nadcházející zápasy.
+- Statistiky obsahují samostatné domácí a venkovní tabulky a porovnání sezón.
+- Predikce naplánovaných zápasů se ukládají a po zadání výsledku se vyhodnocují Brier skóre.
+- GitHub Actions kontroluje syntaxi Pythonu a spouští testy výpočtů.
+
 ## Další doporučený vývoj
 
 1. Alembic migrace databáze.
@@ -208,7 +215,7 @@ Doporučení: `BOOTSTRAP_ADMIN_PASSWORD` nastav na dlouhé jedinečné heslo. Ja
 
 ## D. První spuštění a kontrola
 
-- Při prvním spuštění aplikace vytvoří tabulky v Neon PostgreSQL.
+- Při prvním spuštění aplikace vytvoří chybějící tabulky v Neon PostgreSQL; existující záznamy nepřepisuje.
 - Pokud je databáze prázdná a `SEED_DEMO_DATA = "true"`, vloží se ukázková liga. Pro čistý start nastav `false`.
 - Přihlas se administrátorským účtem.
 - Otestuj vytvoření testovací soutěže a zápasu, obnov stránku a ověř, že data zůstala uložena.
