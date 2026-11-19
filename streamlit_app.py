@@ -1,5 +1,3 @@
-import os
-from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -11,23 +9,20 @@ from core.security import bootstrap_admin, login_form, logout
 from core.seed import seed_demo_data
 from styles import apply_styles
 
-st.set_page_config(page_title="SportStats 2.0", page_icon="⚽", layout="wide")
+st.set_page_config(page_title="SportStats 2.1", page_icon="⚽", layout="wide")
+
+# create_all pouze doplní chybějící tabulky; existující záznamy nepřepisuje.
 Base.metadata.create_all(bind=engine)
 bootstrap_admin()
 seed_demo_data()
-
-if "theme_mode" not in st.session_state:
-    st.session_state.theme_mode = "Tmavý"
 apply_styles()
 
 if not login_form():
     st.stop()
 
 with st.sidebar:
-    st.markdown("## ⚽ SportStats **2.0**")
-    st.caption("FOOTBALL ANALYTICS")
-    st.selectbox("Vzhled", ["Tmavý", "Světlý"],
-                 key="theme_mode", on_change=apply_styles)
+    st.markdown("## ⚽ SportStats **2.1**")
+    st.caption("DARKGREEN · FOOTBALL ANALYTICS")
     st.divider()
     page = st.radio("Navigace", [
         "Přehled", "Ligy a sezóny", "Ligové tabulky", "Zápasy",
@@ -55,4 +50,5 @@ elif page == "Predikční centrum":
     from views.predictions import render
 else:
     from views.admin import render
+
 render()
