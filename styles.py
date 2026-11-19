@@ -1,16 +1,19 @@
 import streamlit as st
 
+
 def apply_styles():
-    theme = st.session_state.get("theme_mode", "Tmavý")
-    if theme == "Světlý":
-        bg, panel, panel2, text, muted, border = "#F3F7F4", "#FFFFFF", "#EAF2EC", "#14231A", "#607267", "#D7E4DA"
-        accent, accent_soft = "#168447", "rgba(22,132,71,.10)"
-    else:
-        bg, panel, panel2, text, muted, border = "#07110C", "#0D1B13", "#12251A", "#F2F8F3", "#91A99A", "#203B2A"
-        accent, accent_soft = "#48E184", "rgba(72,225,132,.12)"
+    """Jednotný tmavý DarkGreen vzhled SportStats 2.1."""
+    bg = "#050D08"
+    panel = "#0B1710"
+    panel2 = "#102319"
+    text = "#F2F8F3"
+    muted = "#91A99A"
+    border = "#203B2A"
+    accent = "#48E184"
+    accent_soft = "rgba(72,225,132,.12)"
     st.markdown(f"""
     <style>
-    :root {{ color-scheme: {'light' if theme == 'Světlý' else 'dark'}; }}
+    :root {{ color-scheme: dark; }}
     .stApp {{ background: radial-gradient(ellipse at 80% 0%, {accent_soft}, transparent 38%), {bg}; color: {text}; }}
     [data-testid="stSidebar"] {{ background: {panel}; border-right: 1px solid {border}; }}
     [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p {{ color: {muted}; }}
