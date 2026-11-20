@@ -22,7 +22,7 @@ def render():
         teams = list(db.scalars(select(Team).where(Team.season_id == sid)))
         matches = list(db.scalars(select(Match).where(Match.season_id == sid)))
         df = build_standings(teams, matches)
-        st.markdown(f"### {label}")
+        st.markdown(f'<div class="ss-section-head"><span class="ss-section-mark"></span><div><div class="ss-section-title">{label}</div><div class="ss-section-sub">Oficiální pořadí a bodová bilance soutěže</div></div></div>', unsafe_allow_html=True)
         played = sum(1 for match in matches if match.played)
         c1, c2, c3 = st.columns(3)
         c1.metric("Týmy", len(teams))
