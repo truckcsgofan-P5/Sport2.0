@@ -9,8 +9,12 @@ from core.repository import season_options
 
 
 def render():
-    st.markdown('<div class="eyebrow">PERFORMANCE / DATA LAB</div>', unsafe_allow_html=True)
-    st.title("Statistiky a analytika")
+    st.markdown(
+        '<div class="ss-hero"><div class="ss-hero-kicker">PERFORMANCE / DATA LAB</div>'
+        '<div class="ss-hero-title">Statistiky a analytika</div>'
+        '<div class="ss-hero-copy">Výkonnost týmů, domácí a venkovní bilance i přesnost predikčního modelu.</div></div>',
+        unsafe_allow_html=True,
+    )
     opts = season_options()
     if not opts:
         st.info("Zatím nejsou žádné sezóny.")
