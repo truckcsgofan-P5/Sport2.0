@@ -21,7 +21,7 @@ def render():
     sid, label = st.selectbox("Soutěž a sezóna", opts, format_func=lambda x: x[1])
     with SessionLocal() as db:
         teams = list(db.scalars(select(Team).where(Team.season_id == sid).order_by(Team.name)))
-        st.markdown(f"### Soupiska · {label}")
+        st.markdown(f'<div class="ss-section-head"><span class="ss-section-mark"></span><div><div class="ss-section-title">Soupiska · {label}</div><div class="ss-section-sub">Kluby registrované v této sezóně</div></div></div>', unsafe_allow_html=True)
         left, right = st.columns([1, 1.6], gap="large")
         with left:
             st.metric("Počet týmů", len(teams))
@@ -41,7 +41,7 @@ def render():
                     st.success("Tým přidán.")
                     st.rerun()
         with right:
-            st.markdown("#### Přehled klubů")
+            st.markdown('<div class="ss-section-head"><span class="ss-section-mark"></span><div><div class="ss-section-title">Přehled klubů</div><div class="ss-section-sub">Seznam účastníků soutěže</div></div></div>', unsafe_allow_html=True)
             if teams:
                 st.dataframe(
                     [{"#": i, "Tým": team.name, "Soutěž": label} for i, team in enumerate(teams, 1)],
@@ -52,7 +52,7 @@ def render():
                 st.info("V této sezóně zatím nejsou žádné týmy.")
         if teams:
             st.divider()
-            st.markdown("#### Odebrání týmu")
+            st.markdown('<div class="ss-section-head"><span class="ss-section-mark"></span><div><div class="ss-section-title">Správa účastníků</div><div class="ss-section-sub">Odebrání týmu včetně souvisejících zápasů</div></div></div>', unsafe_allow_html=True)
             st.warning("Smazáním týmu se odstraní také všechny jeho související zápasy.")
             selected = st.selectbox(
                 "Vybrat tým ke smazání",
