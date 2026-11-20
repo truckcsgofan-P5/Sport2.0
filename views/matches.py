@@ -30,9 +30,10 @@ def render():
             home = c1.selectbox("Domácí", list(team_map))
             away = c2.selectbox("Hosté", list(team_map), index=1)
             played = st.checkbox("Zápas je odehraný")
+            st.caption("Góly lze vyplnit kdykoliv. Do výsledku se uloží pouze tehdy, když označíš zápas jako odehraný.")
             s1, s2 = st.columns(2)
-            hs = s1.number_input("Góly domácích", min_value=0, value=0, disabled=not played)
-            aws = s2.number_input("Góly hostů", min_value=0, value=0, disabled=not played)
+            hs = s1.number_input("Góly domácích", min_value=0, value=0)
+            aws = s2.number_input("Góly hostů", min_value=0, value=0)
             notes = st.text_input("Poznámka (nepovinné)")
             submit = st.form_submit_button("Uložit zápas")
         if submit:
@@ -75,9 +76,10 @@ def render():
             with st.form("edit_match"):
                 new_date = st.date_input("Datum zápasu", value=match.match_date)
                 new_played = st.checkbox("Odehráno", value=match.played)
+                st.caption("Góly lze upravit kdykoliv. Do výsledku se uloží pouze tehdy, když je zápas označen jako odehraný.")
                 ec1, ec2 = st.columns(2)
-                new_hs = ec1.number_input("Góly domácích", min_value=0, value=match.home_score or 0, disabled=not new_played)
-                new_as = ec2.number_input("Góly hostů", min_value=0, value=match.away_score or 0, disabled=not new_played)
+                new_hs = ec1.number_input("Góly domácích", min_value=0, value=match.home_score or 0)
+                new_as = ec2.number_input("Góly hostů", min_value=0, value=match.away_score or 0)
                 new_notes = st.text_input("Poznámka", value=match.notes or "")
                 save = st.form_submit_button("Uložit změny")
             if save:
