@@ -92,6 +92,6 @@ def render():
         st.divider()
         ratings = elo_ratings(teams, matches)
         rating_rows = [{"Tým": t.name, "Elo": round(ratings.get(t.id, 1500))} for t in teams]
-        st.subheader("Elo žebříček")
+        st.markdown('<div class="ss-section-head"><span class="ss-section-mark"></span><div><div class="ss-section-title">Elo žebříček</div><div class="ss-section-sub">Relativní síla týmů podle historických výsledků</div></div></div>', unsafe_allow_html=True)
         st.dataframe(sorted(rating_rows, key=lambda x: x["Elo"], reverse=True),
                      use_container_width=True, hide_index=True)
