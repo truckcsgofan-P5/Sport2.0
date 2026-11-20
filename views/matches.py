@@ -29,7 +29,7 @@ def render():
             return
         team_map = {t.name: t.id for t in teams}
         with st.form("create_match"):
-            st.subheader("Naplánovat zápas / zadat výsledek")
+            st.markdown('<div class="ss-section-head"><span class="ss-section-mark"></span><div><div class="ss-section-title">Nové utkání</div><div class="ss-section-sub">Naplánuj duel nebo rovnou zapiš konečný výsledek</div></div></div>', unsafe_allow_html=True)
             match_date = st.date_input("Datum", value=date.today())
             c1, c2 = st.columns(2)
             home = c1.selectbox("Domácí", list(team_map))
@@ -56,7 +56,7 @@ def render():
                 st.success("Zápas uložen.")
                 st.rerun()
 
-        st.divider()
+        st.markdown('<div class="ss-divider"></div><div class="ss-section-head"><span class="ss-section-mark"></span><div><div class="ss-section-title">Program a výsledky</div><div class="ss-section-sub">Historie odehraných i nadcházejících utkání</div></div></div>', unsafe_allow_html=True)
         matches = list(db.scalars(
             select(Match).where(Match.season_id == sid).order_by(Match.match_date.desc())
         ))
@@ -64,7 +64,7 @@ def render():
             "ID": m.id, "Datum": m.match_date, "Domácí": m.home_team.name,
             "Výsledek": f"{m.home_score}:{m.away_score}" if m.played else "–",
             "Hosté": m.away_team.name,
-            "Stav": "Odehráno" if m.played else "Naplánováno",
+            "Stav": "✓ Odehráno" if m.played else "◷ Naplánováno",
             "Poznámka": m.notes
         } for m in matches]
         st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
