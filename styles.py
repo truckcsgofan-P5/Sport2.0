@@ -109,6 +109,18 @@ def apply_styles():
         border-color: {accent}; transform: translateY(-1px);
     }}
     [data-testid="stTabs"] button {{ font-weight: 700; }}
+    .ss-section-head {{ display:flex; align-items:center; gap:.7rem; margin:1.35rem 0 .75rem; }}
+    .ss-section-mark {{ width:4px; height:25px; border-radius:5px; background:{accent}; box-shadow:0 0 15px rgba(86,242,143,.45); }}
+    .ss-section-title {{ color:{text}; font-size:1.12rem; font-weight:850; letter-spacing:-.025em; }}
+    .ss-section-sub {{ color:{muted}; font-size:.78rem; margin-top:.12rem; }}
+    .ss-mini-card {{ background:linear-gradient(145deg, rgba(17,39,25,.94), rgba(8,19,12,.96)); border:1px solid {border}; border-radius:15px; padding:1rem 1.1rem; min-height:88px; }}
+    .ss-mini-label {{ color:{muted}; font-size:.72rem; font-weight:750; text-transform:uppercase; letter-spacing:.08em; }}
+    .ss-mini-value {{ color:{text}; font-size:1.22rem; font-weight:850; margin-top:.28rem; }}
+    .ss-mini-note {{ color:{accent}; font-size:.74rem; margin-top:.15rem; }}
+    .ss-divider {{ height:1px; background:linear-gradient(90deg, rgba(86,242,143,.38), rgba(125,185,145,.04)); margin:1.25rem 0; }}
+    [data-testid="stAlert"] {{ border-radius:13px; }}
+    [data-testid="stSelectbox"] label, [data-testid="stTextInput"] label, [data-testid="stNumberInput"] label {{ font-weight:700; }}
+
     hr {{ border-color: {border}; }}
     a {{ color: {accent} !important; }}
     .login-wrap {{ text-align:center; padding: 3rem 0 1.5rem; }}
