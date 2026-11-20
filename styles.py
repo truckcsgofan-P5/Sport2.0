@@ -2,35 +2,122 @@ import streamlit as st
 
 
 def apply_styles():
-    """Jednotný tmavý DarkGreen vzhled SportStats 2.1."""
-    bg = "#050D08"
-    panel = "#0B1710"
-    panel2 = "#102319"
+    """Jednotný prémiový DarkGreen vzhled SportStats 2.2."""
+    bg = "#050B08"
+    panel = "#0B1510"
+    panel2 = "#101F16"
     text = "#F2F8F3"
     muted = "#91A99A"
-    border = "#203B2A"
-    accent = "#48E184"
-    accent_soft = "rgba(72,225,132,.12)"
+    border = "rgba(125, 185, 145, .16)"
+    accent = "#56F28F"
+    accent_dark = "#173D27"
+
     st.markdown(f"""
     <style>
-    :root {{ color-scheme: dark; }}
-    .stApp {{ background: radial-gradient(ellipse at 80% 0%, {accent_soft}, transparent 38%), {bg}; color: {text}; }}
-    [data-testid="stSidebar"] {{ background: {panel}; border-right: 1px solid {border}; }}
+    :root {{
+        color-scheme: dark;
+        --ss-bg: {bg};
+        --ss-panel: {panel};
+        --ss-panel-2: {panel2};
+        --ss-text: {text};
+        --ss-muted: {muted};
+        --ss-border: {border};
+        --ss-accent: {accent};
+    }}
+    .stApp {{
+        background:
+            radial-gradient(ellipse at 88% 0%, rgba(49, 190, 100, .13), transparent 34%),
+            radial-gradient(ellipse at 0% 35%, rgba(32, 105, 61, .08), transparent 32%),
+            {bg};
+        color: {text};
+    }}
+    [data-testid="stHeader"] {{ background: rgba(5, 11, 8, .72); }}
+    [data-testid="stSidebar"] {{
+        background: linear-gradient(180deg, #0B1710 0%, #07100B 100%);
+        border-right: 1px solid {border};
+    }}
+    [data-testid="stSidebar"] > div:first-child {{ padding-top: 1.25rem; }}
     [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p {{ color: {muted}; }}
-    [data-testid="stMetric"] {{ background: linear-gradient(145deg, {panel2}, {panel}); padding: 18px; border: 1px solid {border}; border-radius: 16px; }}
-    [data-testid="stMetricLabel"] {{ color: {muted}; font-weight: 650; }}
-    [data-testid="stMetricValue"] {{ color: {text}; font-weight: 800; }}
-    .block-container {{ padding-top: 1.7rem; max-width: 1500px; }}
-    h1,h2,h3 {{ letter-spacing: -.035em; }}
-    h1 {{ font-weight: 850 !important; }}
-    .eyebrow {{ color: {accent}; font-size: .72rem; letter-spacing: .18em; font-weight: 850; text-transform: uppercase; }}
+    [data-testid="stSidebar"] [role="radiogroup"] {{ gap: .35rem; }}
+    [data-testid="stSidebar"] [role="radiogroup"] label {{
+        border-radius: 10px;
+        padding: .48rem .65rem;
+        transition: background .18s ease;
+    }}
+    [data-testid="stSidebar"] [role="radiogroup"] label:hover {{
+        background: rgba(86, 242, 143, .08);
+    }}
+    .block-container {{ padding-top: 2rem; padding-bottom: 3rem; max-width: 1540px; }}
+    h1, h2, h3 {{ letter-spacing: -.04em; color: {text}; }}
+    h1 {{ font-weight: 850 !important; letter-spacing: -.055em; }}
+    h2 {{ font-weight: 760 !important; }}
+    h3 {{ font-weight: 700 !important; }}
+    p, label, [data-testid="stCaptionContainer"] {{ color: {muted}; }}
+    .eyebrow {{
+        color: {accent}; font-size: .7rem; letter-spacing: .2em;
+        font-weight: 850; text-transform: uppercase; margin-bottom: .35rem;
+    }}
+    .ss-hero {{
+        position: relative; overflow: hidden; padding: 1.65rem 1.8rem;
+        border: 1px solid rgba(86, 242, 143, .22); border-radius: 22px;
+        background: linear-gradient(115deg, rgba(19, 54, 32, .94), rgba(9, 22, 14, .94) 62%, rgba(14, 39, 23, .9));
+        box-shadow: 0 18px 55px rgba(0, 0, 0, .22);
+        margin: .25rem 0 1.25rem;
+    }}
+    .ss-hero:after {{
+        content: ""; position: absolute; width: 260px; height: 260px; right: -70px; top: -130px;
+        border: 1px solid rgba(86, 242, 143, .18); border-radius: 50%;
+        box-shadow: 0 0 0 28px rgba(86,242,143,.025), 0 0 0 58px rgba(86,242,143,.02);
+    }}
+    .ss-hero-kicker {{ color: {accent}; font-size: .68rem; font-weight: 850; letter-spacing: .2em; }}
+    .ss-hero-title {{ color: {text}; font-size: clamp(1.65rem, 3vw, 2.45rem); font-weight: 900; letter-spacing: -.06em; margin: .35rem 0; }}
+    .ss-hero-copy {{ color: #B4C9BA; font-size: .94rem; margin: 0; max-width: 680px; }}
+    [data-testid="stMetric"] {{
+        background: linear-gradient(145deg, rgba(17, 37, 25, .98), rgba(9, 20, 13, .98));
+        padding: 1.05rem 1.15rem; border: 1px solid {border}; border-radius: 17px;
+        box-shadow: 0 10px 28px rgba(0,0,0,.13); min-height: 116px;
+    }}
+    [data-testid="stMetricLabel"] {{ color: {muted}; font-weight: 700; font-size: .78rem; }}
+    [data-testid="stMetricValue"] {{ color: {text}; font-weight: 850; letter-spacing: -.04em; }}
+    [data-testid="stMetricDelta"] {{ font-size: .76rem; }}
+    div[data-testid="stDataFrame"], div[data-testid="stTable"] {{
+        border: 1px solid {border}; border-radius: 14px; overflow: hidden;
+        background: rgba(10, 22, 14, .72);
+    }}
+    div[data-testid="stPlotlyChart"] {{
+        background: linear-gradient(145deg, rgba(15, 32, 21, .96), rgba(8, 18, 12, .96));
+        border: 1px solid {border}; border-radius: 17px; padding: 8px;
+    }}
+    div[data-testid="stForm"], [data-testid="stExpander"] {{
+        border-color: {border} !important; border-radius: 15px !important;
+        background: rgba(10, 22, 14, .45);
+    }}
+    .stTextInput input, .stNumberInput input, .stDateInput input,
+    .stSelectbox [data-baseweb="select"], .stMultiSelect [data-baseweb="select"] {{
+        background: #0B1911; border-color: {border}; border-radius: 10px;
+    }}
+    .stButton > button, .stFormSubmitButton > button {{
+        border-radius: 11px; min-height: 2.55rem; font-weight: 750;
+        border: 1px solid {border}; transition: all .18s ease;
+    }}
+    .stButton > button[kind="primary"], .stFormSubmitButton > button[kind="primary"] {{
+        background: linear-gradient(135deg, {accent}, #32C96E);
+        color: #06110A; border: 0; font-weight: 850;
+        box-shadow: 0 7px 22px rgba(56, 220, 112, .16);
+    }}
+    .stButton > button:hover, .stFormSubmitButton > button:hover {{
+        border-color: {accent}; transform: translateY(-1px);
+    }}
+    [data-testid="stTabs"] button {{ font-weight: 700; }}
+    hr {{ border-color: {border}; }}
+    a {{ color: {accent} !important; }}
     .login-wrap {{ text-align:center; padding: 3rem 0 1.5rem; }}
     .login-wrap h1 {{ font-size: 2.7rem; margin: .3rem 0; }}
     .login-wrap h1 span {{ color:{accent}; }}
     .login-wrap p {{ color:{muted}; }}
-    div[data-testid="stDataFrame"] {{ border: 1px solid {border}; border-radius: 14px; overflow: hidden; }}
-    div[data-testid="stPlotlyChart"] {{ background: {panel}; border: 1px solid {border}; border-radius: 16px; padding: 8px; }}
-    .stButton > button[kind="primary"] {{ background: {accent}; color: #06110A; border: 0; font-weight: 800; }}
-    a {{ color: {accent} !important; }}
+    @media (max-width: 700px) {{
+        .block-container {{ padding-left: 1rem; padding-right: 1rem; padding-top: 1.2rem; }}
+        .ss-hero {{ padding: 1.25rem; border-radius: 17px; }}
+    }}
     </style>
     """, unsafe_allow_html=True)
