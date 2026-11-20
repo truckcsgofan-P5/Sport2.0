@@ -83,7 +83,7 @@ def render():
         b.metric("Nejlepší obrana", best_defence["Tým"], f'{int(best_defence["Obdržené góly"])} inkasovaných')
         c.metric("Odehrané zápasy", len(played))
 
-        st.subheader("Celková výkonnost týmů")
+        st.markdown('<div class="ss-section-head"><span class="ss-section-mark"></span><div><div class="ss-section-title">Celková výkonnost týmů</div><div class="ss-section-sub">Porovnání výsledků, gólů a bodového zisku</div></div></div>', unsafe_allow_html=True)
         st.dataframe(df[[
             "Tým", "Zápasy", "Výhry", "Remízy", "Prohry", "Vstřelené góly",
             "Obdržené góly", "Rozdíl", "Body", "Průměr gólů", "Průměr obdržených"
@@ -99,18 +99,18 @@ def render():
             title="Útočná a obranná výkonnost"
         ), use_container_width=True)
 
-        st.subheader("Domácí tabulka")
+        st.markdown('<div class="ss-section-head"><span class="ss-section-mark"></span><div><div class="ss-section-title">Domácí tabulka</div><div class="ss-section-sub">Výsledky týmů na vlastním hřišti</div></div></div>', unsafe_allow_html=True)
         st.dataframe(df[["Tým", "Domácí Z", "Domácí V", "Domácí R", "Domácí P",
                          "Domácí góly", "Domácí inkasované", "Domácí body"]]
                      .sort_values(["Domácí body", "Domácí góly"], ascending=False),
                      use_container_width=True, hide_index=True)
-        st.subheader("Venkovní tabulka")
+        st.markdown('<div class="ss-section-head"><span class="ss-section-mark"></span><div><div class="ss-section-title">Venkovní tabulka</div><div class="ss-section-sub">Výsledky týmů na hřištích soupeřů</div></div></div>', unsafe_allow_html=True)
         st.dataframe(df[["Tým", "Venkovní Z", "Venkovní V", "Venkovní R", "Venkovní P",
                          "Venkovní góly", "Venkovní inkasované", "Venkovní body"]]
                      .sort_values(["Venkovní body", "Venkovní góly"], ascending=False),
                      use_container_width=True, hide_index=True)
 
-        st.subheader("Domácí vs. venkovní góly")
+        st.markdown('<div class="ss-section-head"><span class="ss-section-mark"></span><div><div class="ss-section-title">Domácí vs. venkovní góly</div><div class="ss-section-sub">Srovnání ofenzivy a defenzivy podle prostředí</div></div></div>', unsafe_allow_html=True)
         split = df.melt(
             id_vars="Tým",
             value_vars=["Domácí góly", "Domácí inkasované", "Venkovní góly", "Venkovní inkasované"],
@@ -129,7 +129,7 @@ def render():
             .order_by(Match.match_date.desc())
         ).all()
         st.divider()
-        st.subheader("Přesnost predikcí")
+        st.markdown('<div class="ss-section-head"><span class="ss-section-mark"></span><div><div class="ss-section-title">Přesnost predikcí</div><div class="ss-section-sub">Vyhodnocení modelu na základě skutečných výsledků</div></div></div>', unsafe_allow_html=True)
         if evaluations:
             scores = [evaluation.brier_score for evaluation, match in evaluations]
             avg_score = sum(scores) / len(scores)
@@ -152,7 +152,7 @@ def render():
             st.info("Zatím nejsou vyhodnocené predikce. V Predikčním centru nejprve vypočítej predikci naplánovaného zápasu; po zadání výsledku se automaticky vyhodnotí.")
 
         st.divider()
-        st.subheader("Historické porovnání sezón")
+        st.markdown('<div class="ss-section-head"><span class="ss-section-mark"></span><div><div class="ss-section-title">Historické porovnání sezón</div><div class="ss-section-sub">Srovnání vývoje napříč ročníky stejné soutěže</div></div></div>', unsafe_allow_html=True)
         current_season = db.get(Season, sid)
         other_seasons = list(db.scalars(
             select(Season)
