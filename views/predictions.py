@@ -9,8 +9,13 @@ from analytics.predictions import predict_match, elo_ratings
 
 
 def render():
-    st.title("Predikční centrum")
-    st.caption("Kombinovaný model Elo + Poisson. Výstupy jsou statistické odhady, nikoliv jisté výsledky.")
+    st.markdown(
+        '<div class="ss-hero"><div class="ss-hero-kicker">MATCH INTELLIGENCE / ELO + POISSON</div>'
+        '<div class="ss-hero-title">Predikční centrum</div>'
+        '<div class="ss-hero-copy">Pravděpodobnostní odhady výsledků, očekávané góly a síla týmů.</div></div>',
+        unsafe_allow_html=True,
+    )
+    st.caption("Model Elo + Poisson. Výstupy jsou statistické odhady, nikoliv jisté výsledky.")
     opts = season_options()
     if not opts:
         st.info("Zatím nejsou žádné sezóny.")
