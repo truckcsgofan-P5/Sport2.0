@@ -11,7 +11,12 @@ from analytics.predictions import calculate_brier_score
 def render():
     from core.permissions import require_editor
     require_editor()
-    st.title("Zápasy")
+    st.markdown(
+        '<div class="ss-hero"><div class="ss-hero-kicker">FIXTURES / RESULTS CENTER</div>'
+        '<div class="ss-hero-title">Zápasy</div>'
+        '<div class="ss-hero-copy">Plánuj utkání, zapisuj výsledky a spravuj odehrané zápasy.</div></div>',
+        unsafe_allow_html=True,
+    )
     opts = season_options()
     if not opts:
         st.info("Nejprve vytvoř ligu a sezónu.")
