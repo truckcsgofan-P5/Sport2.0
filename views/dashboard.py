@@ -84,9 +84,9 @@ def render():
                         next(team.id for team in teams if team.name == row["Tým"]), matches
                     ), axis=1
                 )
-                st.dataframe(
-                    table[["Tým", "Z", "V", "R", "P", "Skóre", "Body", "Forma · posledních 5"]],
-                    use_container_width=True, hide_index=True
+                # Statická HTML tabulka je spolehlivější na mobilu než canvasový st.dataframe.
+                st.table(
+                    table[["Tým", "Z", "V", "R", "P", "Skóre", "Body", "Forma · posledních 5"]]
                 )
             else:
                 st.info("Po zadání odehraných výsledků se zde zobrazí tabulka a forma týmů.")
@@ -116,12 +116,12 @@ def render():
         with recent_col:
             st.subheader("Poslední výsledky")
             if recent:
-                st.dataframe(_match_rows(recent), use_container_width=True, hide_index=True)
+                st.table(pd.DataFrame(_match_rows(recent)))
             else:
                 st.info("Zatím nebyl odehrán žádný zápas.")
         with upcoming_col:
             st.subheader("Nadcházející zápasy")
             if next_matches:
-                st.dataframe(_match_rows(next_matches), use_container_width=True, hide_index=True)
+                st.table(pd.DataFrame(_match_rows(next_matches)))
             else:
                 st.info("Nejsou naplánované žádné další zápasy.")
