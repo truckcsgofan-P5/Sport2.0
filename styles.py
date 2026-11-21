@@ -2,7 +2,7 @@ import streamlit as st
 
 
 def apply_styles():
-    """Jednotný prémiový DarkGreen vzhled SportStats 2.2."""
+    """Jednotný prémiový DarkGreen vzhled Sport2.0."""
     bg = "#050B08"
     panel = "#0B1510"
     panel2 = "#101F16"
@@ -128,8 +128,26 @@ def apply_styles():
     .login-wrap h1 span {{ color:{accent}; }}
     .login-wrap p {{ color:{muted}; }}
     @media (max-width: 700px) {{
-        .block-container {{ padding-left: 1rem; padding-right: 1rem; padding-top: 1.2rem; }}
-        .ss-hero {{ padding: 1.25rem; border-radius: 17px; }}
+        .block-container {{ padding-left: .85rem; padding-right: .85rem; padding-top: .85rem; }}
+        .ss-hero {{ padding: 1.05rem; border-radius: 16px; margin-bottom: .8rem; }}
+        .ss-hero-kicker {{ font-size: .58rem; letter-spacing: .14em; }}
+        .ss-hero-title {{ font-size: 1.55rem; margin: .25rem 0; }}
+        .ss-hero-copy {{ font-size: .82rem; line-height: 1.45; }}
+        div[data-testid="stHorizontalBlock"]:has([data-testid="stMetric"]) {{
+            display: flex !important; flex-wrap: wrap !important; gap: .55rem !important;
+        }}
+        div[data-testid="stHorizontalBlock"]:has([data-testid="stMetric"]) > div {{
+            flex: 1 1 calc(50% - .55rem) !important;
+            min-width: calc(50% - .55rem) !important; width: calc(50% - .55rem) !important;
+        }}
+        [data-testid="stMetric"] {{
+            min-height: 0; padding: .72rem .8rem; border-radius: 13px;
+        }}
+        [data-testid="stMetricLabel"] {{ font-size: .7rem; }}
+        [data-testid="stMetricValue"] {{ font-size: 1.55rem; }}
+        [data-testid="stMetricDelta"] {{ font-size: .68rem; }}
+        h2 {{ font-size: 1.25rem !important; }}
+        h3 {{ font-size: 1.05rem !important; }}
     }}
     </style>
     """, unsafe_allow_html=True)
