@@ -38,7 +38,7 @@ def render():
         '<div class="ss-hero-kicker">SPORTS INTELLIGENCE · MATCH CENTER</div>'
         '<div class="ss-hero-title">Přehled soutěží</div>'
         '<p class="ss-hero-copy">Všechno důležité o tvých ligách na jednom místě. '
-        'Výsledky, forma týmů a nadcházející zápasy v přehledném centru SportStats.</p>'
+        'Výsledky, forma týmů a nadcházející zápasy v moderním centru Sport2.0.</p>'
         '</div>',
         unsafe_allow_html=True
     )
