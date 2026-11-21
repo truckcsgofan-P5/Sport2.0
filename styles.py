@@ -114,6 +114,19 @@ def apply_styles():
     .ss-section-title {{ color:{text}; font-size:1.12rem; font-weight:850; letter-spacing:-.025em; }}
     .ss-section-sub {{ color:{muted}; font-size:.78rem; margin-top:.12rem; }}
     .ss-mini-card {{ background:linear-gradient(145deg, rgba(17,39,25,.94), rgba(8,19,12,.96)); border:1px solid {border}; border-radius:15px; padding:1rem 1.1rem; min-height:88px; }}
+    .ss-metrics-grid {{
+        display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: .85rem; margin: .8rem 0 1.25rem;
+    }}
+    .ss-metric-card {{
+        min-width: 0; min-height: 112px; padding: 1rem 1.1rem;
+        border: 1px solid {border}; border-radius: 17px;
+        background: linear-gradient(145deg, rgba(17, 37, 25, .98), rgba(9, 20, 13, .98));
+        box-shadow: 0 10px 28px rgba(0,0,0,.13);
+    }}
+    .ss-metric-label {{ color: {muted}; font-size: .82rem; font-weight: 700; }}
+    .ss-metric-value {{ color: {text}; font-size: 2rem; line-height: 1.2; font-weight: 850; letter-spacing: -.04em; margin-top: .35rem; }}
+    .ss-metric-note {{ color: {accent}; font-size: .72rem; margin-top: .2rem; }}
     .ss-mini-label {{ color:{muted}; font-size:.72rem; font-weight:750; text-transform:uppercase; letter-spacing:.08em; }}
     .ss-mini-value {{ color:{text}; font-size:1.22rem; font-weight:850; margin-top:.28rem; }}
     .ss-mini-note {{ color:{accent}; font-size:.74rem; margin-top:.15rem; }}
@@ -133,6 +146,11 @@ def apply_styles():
         .ss-hero-kicker {{ font-size: .58rem; letter-spacing: .14em; }}
         .ss-hero-title {{ font-size: 1.55rem; margin: .25rem 0; }}
         .ss-hero-copy {{ font-size: .82rem; line-height: 1.45; }}
+        .ss-metrics-grid {{ grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; margin: .65rem 0 1rem; }}
+        .ss-metric-card {{ min-height: 86px; padding: .72rem .8rem; border-radius: 13px; }}
+        .ss-metric-label {{ font-size: .7rem; }}
+        .ss-metric-value {{ font-size: 1.55rem; }}
+
         [data-testid="stHorizontalBlock"] {{
             flex-direction: row !important;
             flex-wrap: wrap !important;
