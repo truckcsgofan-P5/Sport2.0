@@ -44,11 +44,17 @@ def render():
     )
 
     metrics = dashboard_metrics()
-    c1, c2, c3, c4 = st.columns(4)
-    c1.metric("Soutěže", metrics["leagues"])
-    c2.metric("Týmy", metrics["teams"])
-    c3.metric("Zápasy celkem", metrics["matches"])
-    c4.metric("Odehráno", metrics["played"], delta=f'{metrics["matches"] - metrics["played"]} zbývá')
+    st.markdown(
+        f"""
+        <div class="ss-metrics-grid">
+          <div class="ss-metric-card"><div class="ss-metric-label">Soutěže</div><div class="ss-metric-value">{metrics["leagues"]}</div></div>
+          <div class="ss-metric-card"><div class="ss-metric-label">Týmy</div><div class="ss-metric-value">{metrics["teams"]}</div></div>
+          <div class="ss-metric-card"><div class="ss-metric-label">Zápasy celkem</div><div class="ss-metric-value">{metrics["matches"]}</div></div>
+          <div class="ss-metric-card"><div class="ss-metric-label">Odehráno</div><div class="ss-metric-value">{metrics["played"]}</div><div class="ss-metric-note">{metrics["matches"] - metrics["played"]} zbývá</div></div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
     options = season_options()
     if not options:
