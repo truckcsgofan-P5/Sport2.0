@@ -133,12 +133,15 @@ def apply_styles():
         .ss-hero-kicker {{ font-size: .58rem; letter-spacing: .14em; }}
         .ss-hero-title {{ font-size: 1.55rem; margin: .25rem 0; }}
         .ss-hero-copy {{ font-size: .82rem; line-height: 1.45; }}
-        div[data-testid="stHorizontalBlock"]:has([data-testid="stMetric"]) {{
-            display: flex !important; flex-wrap: wrap !important; gap: .55rem !important;
+        [data-testid="stHorizontalBlock"] {{
+            flex-direction: row !important;
+            flex-wrap: wrap !important;
+            gap: .55rem !important;
         }}
-        div[data-testid="stHorizontalBlock"]:has([data-testid="stMetric"]) > div {{
+        [data-testid="stHorizontalBlock"] > [data-testid="column"] {{
             flex: 1 1 calc(50% - .55rem) !important;
-            min-width: calc(50% - .55rem) !important; width: calc(50% - .55rem) !important;
+            min-width: calc(50% - .55rem) !important;
+            width: calc(50% - .55rem) !important;
         }}
         [data-testid="stMetric"] {{
             min-height: 0; padding: .72rem .8rem; border-radius: 13px;
