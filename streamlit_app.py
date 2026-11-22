@@ -9,7 +9,7 @@ from core.security import bootstrap_admin, login_form, logout
 from core.seed import seed_demo_data
 from styles import apply_styles
 
-st.set_page_config(page_title="SportStats 2.1", page_icon="⚽", layout="wide")
+st.set_page_config(page_title="Sport2.0", page_icon="⚽", layout="wide")
 
 # create_all pouze doplní chybějící tabulky; existující záznamy nepřepisuje.
 Base.metadata.create_all(bind=engine)
@@ -21,7 +21,7 @@ if not login_form():
     st.stop()
 
 with st.sidebar:
-    st.markdown("## ⚽ SportStats **2.1**")
+    st.markdown("## ⚽ Sport **2.0**")
     st.caption("DARKGREEN · FOOTBALL ANALYTICS")
     st.divider()
     page = st.radio("Navigace", [
