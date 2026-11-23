@@ -17,7 +17,7 @@ COOKIE_NAME = "sportstats_login"
 SESSION_DAYS = 30
 
 
-@st.cache_resource
+
 def get_cookie_manager():
     return stx.CookieManager()
 
