@@ -1,4 +1,4 @@
-from datetime import datetime, date
+from datetime import datetime, date, timezone
 from sqlalchemy import (
     String, Integer, Boolean, Date, DateTime, ForeignKey, UniqueConstraint,
     CheckConstraint, Float, Text
@@ -73,3 +73,33 @@ class PredictionEvaluation(Base):
     p_away: Mapped[float] = mapped_column(Float)
     predicted_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     brier_score: Mapped[float | None] = mapped_column(Float, nullable=True)
+
+
+class LoginSession(Base):
+    __tablename__ = "login_sessions"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"),
+        index=True
+    )
+    token_hash: Mapped[str] = mapped_column(
+        String(64),
+        unique=True,
+        index=True
+    )
+    expires_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        index=True
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc)
+    )
+
+
+
+
+
+
+
