@@ -254,13 +254,27 @@ def render():
                             unsafe_allow_html=True
                         )
 
-                        sc1, sc2 = st.columns(2)
-
-                        with sc1:
-                            st.metric("Týmy", teams_count)
-
-                        with sc2:
-                            st.metric("Zápasy", matches_count)
+                        # Kompaktní statistiky sezóny
+                        st.markdown(
+                            f"""
+                            <div style="
+                                display:grid;
+                                grid-template-columns:repeat(2,minmax(0,1fr));
+                                gap:8px;
+                                margin:12px 0;
+                            ">
+                                <div class="ss-metric-card">
+                                    <div class="ss-metric-label">Týmy</div>
+                                    <div class="ss-metric-value">{teams_count}</div>
+                                </div>
+                                <div class="ss-metric-card">
+                                    <div class="ss-metric-label">Zápasy</div>
+                                    <div class="ss-metric-value">{matches_count}</div>
+                                </div>
+                            </div>
+                            """,
+                            unsafe_allow_html=True
+                        )
 
                         with st.expander("Správa sezóny"):
                             with st.form(f"edit_season_{season.id}"):
