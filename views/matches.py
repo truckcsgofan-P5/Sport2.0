@@ -126,6 +126,42 @@ def render():
             min-width: 48px;
         }
     }
+    
+    
+    /* Mobilní formuláře – zachovat dva sloupce */
+    div[data-testid="stHorizontalBlock"] {
+        flex-wrap: nowrap !important;
+        gap: 10px !important;
+    }
+
+    div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
+        min-width: 0 !important;
+        width: 50% !important;
+        flex: 1 1 0% !important;
+    }
+
+    /* Kompaktnější formulář */
+    div[data-testid="stForm"] {
+        border-radius: 14px;
+    }
+
+    div[data-testid="stForm"] label {
+        font-size: 14px;
+    }
+
+    div[data-testid="stForm"] button[kind="primaryFormSubmit"] {
+        min-height: 48px;
+        font-weight: 700;
+        border-radius: 11px;
+    }
+
+    @media (max-width: 600px) {
+        div[data-testid="stHorizontalBlock"] {
+            gap: 7px !important;
+        }
+    }
+
+    
     </style>
     """, unsafe_allow_html=True)
 
