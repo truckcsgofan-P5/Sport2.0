@@ -1,8 +1,9 @@
 
 import streamlit as st
-from sqlalchemy import select
+from sqlalchemy import select, delete
+
 from core.db import SessionLocal
-from core.models import User
+from core.models import User, LoginSession
 from core.security import hash_password
 from core.migration import import_legacy_json
 
@@ -24,8 +25,12 @@ def render():
     if create:
         with SessionLocal() as db:
             if not username.strip() or len(password) < 12:
-                st.error("Uživatelské jméno je povinné a heslo musí mít alespoň 12 znaků.")
-            elif db.scalar(select(User).where(User.username == username.strip())):
+                st.error(
+                    "Uživatelské jméno je povinné a heslo musí mít alespoň 12 znaků."
+                )
+            elif db.scalar(
+                select(User).where(User.username == username.strip())
+            ):
                 st.error("Uživatel už existuje.")
             else:
                 db.add(User(
@@ -58,14 +63,8 @@ def render():
 
     if usernames:
         with st.form("reset_user_password"):
-            selected_user = st.selectbox(
-                "Vyber člena",
-                usernames
-            )
-            new_password = st.text_input(
-                "Nové heslo",
-                type="password"
-            )
+            selected_user = st.selectbox("Vyber člena", usernames)
+            new_password = st.text_input("Nové heslo", type="password")
             confirm_password = st.text_input(
                 "Potvrzení nového hesla",
                 type="password"
@@ -81,18 +80,26 @@ def render():
             else:
                 with SessionLocal() as db:
                     user = db.scalar(
-                        select(User).where(
-                            User.username == selected_user
-                        )
+                        select(User).where(User.username == selected_user)
                     )
 
                     if user is None:
                         st.error("Uživatel nebyl nalezen.")
                     else:
                         user.password_hash = hash_password(new_password)
+
+                        # Zrušení všech zapamatovaných přihlášení uživatele.
+                        db.execute(
+                            delete(LoginSession).where(
+                                LoginSession.user_id == user.id
+                            )
+                        )
+
                         db.commit()
+
                         st.success(
-                            f"Heslo uživatele {selected_user} bylo změněno."
+                            f"Heslo uživatele {selected_user} bylo změněno. "
+                            "Všechna zapamatovaná přihlášení byla zrušena."
                         )
                         st.rerun()
     else:
