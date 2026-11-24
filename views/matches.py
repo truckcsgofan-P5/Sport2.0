@@ -439,12 +439,24 @@ def render():
 
             match = db.get(Match, edit_id)
 
+            
             if match is not None:
                 with st.expander("✎ Upravit vybraný zápas", expanded=True):
-                    with st.form("edit_match"):
-                        new_date = st.date_input(
+                    with st.form(f"edit_match_{match.id}"):
+
+                        # Datum a stav zápasu
+                        date_col, status_col = st.columns([1.3, 1])
+
+                        new_date = date_col.date_input(
                             "Datum zápasu",
                             value=match.match_date,
+                            key=f"edit_date_{match.id}",
+                        )
+
+                        new_played = status_col.checkbox(
+                            "Zápas je odehraný",
+                            value=match.played,
+                            key=f"edit_played_{match.id}",
                         )
 
                         home_current = next(
@@ -456,44 +468,50 @@ def render():
                             if t.id == match.away_team_id
                         )
 
+                        # Výběr týmů
                         ec1, ec2 = st.columns(2)
+
                         new_home = ec1.selectbox(
                             "Domácí tým",
                             team_names,
                             index=team_names.index(home_current),
+                            key=f"edit_home_{match.id}",
                         )
+
                         new_away = ec2.selectbox(
                             "Hostující tým",
                             team_names,
                             index=team_names.index(away_current),
+                            key=f"edit_away_{match.id}",
                         )
 
-                        new_played = st.checkbox(
-                            "Zápas je odehraný",
-                            value=match.played,
-                        )
-
+                        # Výsledek
                         sc1, sc2 = st.columns(2)
+
                         new_hs = sc1.number_input(
                             "Góly domácích",
                             min_value=0,
                             value=match.home_score or 0,
                             step=1,
+                            key=f"edit_hs_{match.id}",
                         )
+
                         new_as = sc2.number_input(
                             "Góly hostů",
                             min_value=0,
                             value=match.away_score or 0,
                             step=1,
+                            key=f"edit_as_{match.id}",
                         )
 
                         new_notes = st.text_input(
                             "Poznámka",
                             value=match.notes or "",
+                            key=f"edit_notes_{match.id}",
                         )
 
                         save = st.form_submit_button(
-                            "Uložit změny",
+                            "💾 Uložit změny",
                             use_container_width=True,
                         )
 
@@ -507,12 +525,14 @@ def render():
                             match.home_team_id = team_map[new_home]
                             match.away_team_id = team_map[new_away]
                             match.played = new_played
+
                             match.home_score = (
                                 int(new_hs) if new_played else None
                             )
                             match.away_score = (
                                 int(new_as) if new_played else None
                             )
+
                             match.notes = new_notes.strip()
 
                             evaluation = db.scalar(
@@ -548,6 +568,30 @@ def render():
                                 st.success("Změny byly uloženy.")
 
                             st.rerun()
+
+                # Mazání zápasu
+                with st.expander("🗑 Smazat zápas", expanded=False):
+                    st.warning(
+                        "Tato akce je nevratná. "
+                        "Zápas bude odstraněn z databáze."
+                    )
+
+                    confirm_delete = st.checkbox(
+                        "Opravdu chci tento zápas smazat.",
+                        key=f"confirm_delete_{match.id}",
+                    )
+
+                    if st.button(
+                        "Smazat vybraný zápas",
+                        type="secondary",
+                        disabled=not confirm_delete,
+                        use_container_width=True,
+                    ):
+                        db.delete(match)
+                        db.commit()
+                        st.success("Zápas byl smazán.")
+                        st.rerun()
+
 
                 with st.expander("Smazat zápas", expanded=False):
                     st.warning(
