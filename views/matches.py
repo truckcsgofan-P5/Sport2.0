@@ -14,6 +14,122 @@ def render():
     from core.permissions import require_editor
     require_editor()
 
+    
+    st.markdown("""
+    <style>
+    .ss-stat-card {
+        background: rgba(120, 160, 140, 0.09);
+        border: 1px solid rgba(150, 190, 165, 0.18);
+        border-radius: 14px;
+        padding: 15px 12px;
+        min-height: 90px;
+    }
+
+    .ss-stat-label {
+        color: #9aafa3;
+        font-size: 12px;
+        margin-bottom: 8px;
+    }
+
+    .ss-stat-value {
+        color: #ffffff;
+        font-size: 27px;
+        font-weight: 700;
+    }
+
+    .ss-match-card {
+        background: #101a15;
+        border: 1px solid rgba(130, 180, 145, 0.18);
+        border-radius: 15px;
+        padding: 15px;
+        margin: 10px 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .ss-match-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        color: #9aafa3;
+        font-size: 12px;
+        padding-bottom: 13px;
+        border-bottom: 1px solid rgba(150, 190, 165, 0.12);
+        margin-bottom: 14px;
+    }
+
+    .ss-match-top span:last-child {
+        color: #75d99a;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .ss-match-body {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+        align-items: center;
+        gap: 8px;
+        min-height: 48px;
+    }
+
+    .ss-match-team {
+        color: #f1f5f2;
+        font-size: 15px;
+        font-weight: 600;
+        overflow-wrap: anywhere;
+    }
+
+    .ss-match-team:last-child {
+        text-align: right;
+    }
+
+    .ss-match-result {
+        color: #ffffff;
+        background: rgba(120, 180, 140, 0.13);
+        border: 1px solid rgba(130, 190, 150, 0.2);
+        border-radius: 9px;
+        padding: 8px 13px;
+        font-size: 19px;
+        font-weight: 800;
+        white-space: nowrap;
+        text-align: center;
+        min-width: 55px;
+    }
+
+    @media (max-width: 600px) {
+        .ss-stat-card {
+            padding: 11px 9px;
+            min-height: 78px;
+        }
+
+        .ss-stat-label {
+            font-size: 10px;
+        }
+
+        .ss-stat-value {
+            font-size: 22px;
+        }
+
+        .ss-match-card {
+            padding: 12px;
+            border-radius: 12px;
+        }
+
+        .ss-match-team {
+            font-size: 13px;
+        }
+
+        .ss-match-result {
+            font-size: 17px;
+            padding: 7px 9px;
+            min-width: 48px;
+        }
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+
     st.markdown(
         '<div class="ss-hero">'
         '<div class="ss-hero-kicker">FIXTURES / RESULTS CENTER</div>'
