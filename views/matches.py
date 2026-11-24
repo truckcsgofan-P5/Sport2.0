@@ -452,7 +452,7 @@ def render():
             match = db.get(Match, edit_id)
 
             
-                        if match is not None:
+            if match is not None:
                 with st.expander("✎ Upravit vybraný zápas", expanded=True):
                     with st.container(key=f"edit_match_layout_{match.id}"):
                         with st.form(f"edit_match_{match.id}"):
