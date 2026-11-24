@@ -47,23 +47,86 @@ def render():
             select(User).order_by(User.username)
         ).all()
 
-        st.dataframe(
-            [
-                {"Uživatel": u.username, "Role": u.role, "Aktivní": u.active}
-                for u in users
-            ],
-            use_container_width=True,
-            hide_index=True
-        )
-
+        user_rows = [
+            {"Uživatel": u.username, "Role": u.role, "Aktivní": u.active}
+            for u in users
+        ]
         usernames = [u.username for u in users]
+
+    st.dataframe(
+        user_rows,
+        use_container_width=True,
+        hide_index=True
+    )
+
+    st.divider()
+    st.subheader("Aktivace a deaktivace člena")
+
+    if usernames:
+        with st.form("toggle_user_status"):
+            selected_status_user = st.selectbox(
+                "Vyber člena",
+                usernames,
+                key="status_user"
+            )
+            new_status = st.radio(
+                "Nový stav",
+                ["Aktivní", "Deaktivovaný"],
+                horizontal=True
+            )
+            change_status = st.form_submit_button("Uložit stav")
+
+        if change_status:
+            with SessionLocal() as db:
+                user = db.scalar(
+                    select(User).where(
+                        User.username == selected_status_user
+                    )
+                )
+
+                if user is None:
+                    st.error("Uživatel nebyl nalezen.")
+                else:
+                    should_be_active = new_status == "Aktivní"
+
+                    if user.username == st.session_state.get("username") and not should_be_active:
+                        st.error("Nemůžeš deaktivovat vlastní účet.")
+                    else:
+                        user.active = should_be_active
+
+                        if not should_be_active:
+                            db.execute(
+                                delete(LoginSession).where(
+                                    LoginSession.user_id == user.id
+                                )
+                            )
+
+                        db.commit()
+
+                        if should_be_active:
+                            st.success(
+                                f"Uživatel {selected_status_user} byl aktivován."
+                            )
+                        else:
+                            st.success(
+                                f"Uživatel {selected_status_user} byl deaktivován "
+                                "a jeho zapamatovaná přihlášení byla zrušena."
+                            )
+
+                        st.rerun()
+    else:
+        st.info("Zatím nejsou vytvořeni žádní uživatelé.")
 
     st.divider()
     st.subheader("Změna hesla člena")
 
     if usernames:
         with st.form("reset_user_password"):
-            selected_user = st.selectbox("Vyber člena", usernames)
+            selected_user = st.selectbox(
+                "Vyber člena",
+                usernames,
+                key="password_user"
+            )
             new_password = st.text_input("Nové heslo", type="password")
             confirm_password = st.text_input(
                 "Potvrzení nového hesla",
@@ -88,7 +151,6 @@ def render():
                     else:
                         user.password_hash = hash_password(new_password)
 
-                        # Zrušení všech zapamatovaných přihlášení uživatele.
                         db.execute(
                             delete(LoginSession).where(
                                 LoginSession.user_id == user.id
