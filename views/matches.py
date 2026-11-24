@@ -127,6 +127,18 @@ def render():
         }
     }
     
+    /* Mobilní rozložení pouze pro úpravu zápasu */
+[class*="st-key-edit_match_layout_"] [data-testid="stHorizontalBlock"] {
+    flex-wrap: nowrap !important;
+    gap: 10px !important;
+}
+
+[class*="st-key-edit_match_layout_"] [data-testid="column"] {
+    min-width: 0 !important;
+    flex: 1 1 0 !important;
+    width: 0 !important;
+}
+    
     
     </style>
     """, unsafe_allow_html=True)
