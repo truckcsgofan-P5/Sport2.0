@@ -155,17 +155,31 @@ def render():
                     unsafe_allow_html=True
                 )
 
-                # Souhrn ligy
-                c1, c2, c3 = st.columns(3)
-
-                with c1:
-                    st.metric("Sezóny", len(seasons))
-
-                with c2:
-                    st.metric("Týmy", total_teams)
-
-                with c3:
-                    st.metric("Zápasy", total_matches)
+                 # Kompaktní statistiky ligy
+                st.markdown(
+                    f"""
+                    <div style="
+                        display:grid;
+                        grid-template-columns:repeat(3,minmax(0,1fr));
+                        gap:8px;
+                        margin:12px 0;
+                    ">
+                        <div class="ss-metric-card">
+                            <div class="ss-metric-label">Sezóny</div>
+                            <div class="ss-metric-value">{len(seasons)}</div>
+                        </div>
+                        <div class="ss-metric-card">
+                            <div class="ss-metric-label">Týmy</div>
+                            <div class="ss-metric-value">{total_teams}</div>
+                        </div>
+                        <div class="ss-metric-card">
+                            <div class="ss-metric-label">Zápasy</div>
+                            <div class="ss-metric-value">{total_matches}</div>
+                        </div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
 
                 with st.expander("✏️ Upravit ligu"):
                     with st.form(f"edit_league_{league.id}"):
