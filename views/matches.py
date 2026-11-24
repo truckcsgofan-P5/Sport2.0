@@ -203,7 +203,26 @@ def render():
             ("Dnes", len(today_matches)),
         ]
 
-        cols = st.columns(4)
+        
+        # Statistiky sezóny – vždy vedle sebe
+        st.markdown("""
+        <style>
+        div[data-testid="stHorizontalBlock"]:has(.ss-stat-card) {
+            flex-wrap: nowrap !important;
+            gap: 6px !important;
+        }
+
+        div[data-testid="stHorizontalBlock"]:has(.ss-stat-card)
+        > div[data-testid="column"] {
+            min-width: 0 !important;
+            width: 25% !important;
+            flex: 1 1 25% !important;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+
+        cols = st.columns(4, gap="small")
+
         for col, (name, value) in zip(cols, stats):
             with col:
                 st.markdown(
@@ -213,6 +232,7 @@ def render():
                     f'</div>',
                     unsafe_allow_html=True,
                 )
+
 
         # Nový zápas
         st.markdown(
