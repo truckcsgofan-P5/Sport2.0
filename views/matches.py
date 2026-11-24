@@ -204,34 +204,61 @@ def render():
         ]
 
         
-        # Statistiky sezóny – vždy vedle sebe
+        
+        # Kompaktní statistiky – čtyři malé karty vedle sebe
+        stats_html = ""
+
+        for name, value in stats:
+            stats_html += (
+                '<div class="ss-stat-card">'
+                f'<div class="ss-stat-label">{escape(name)}</div>'
+                f'<div class="ss-stat-value">{value}</div>'
+                '</div>'
+            )
+
         st.markdown("""
         <style>
-        div[data-testid="stHorizontalBlock"]:has(.ss-stat-card) {
-            flex-wrap: nowrap !important;
-            gap: 6px !important;
+        .ss-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 7px;
+            width: 100%;
+            margin-bottom: 12px;
         }
 
-        div[data-testid="stHorizontalBlock"]:has(.ss-stat-card)
-        > div[data-testid="column"] {
-            min-width: 0 !important;
-            width: 25% !important;
-            flex: 1 1 25% !important;
+        .ss-stats-grid .ss-stat-card {
+            min-width: 0;
+            padding: 10px 5px;
+            min-height: 72px;
+            border-radius: 11px;
+            background: rgba(120, 160, 140, 0.09);
+            border: 1px solid rgba(150, 190, 165, 0.18);
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .ss-stats-grid .ss-stat-label {
+            font-size: 10px;
+            line-height: 1.25;
+            color: #9aafa3;
+            overflow-wrap: anywhere;
+            margin-bottom: 7px;
+        }
+
+        .ss-stats-grid .ss-stat-value {
+            font-size: 21px;
+            line-height: 1.2;
+            font-weight: 700;
+            color: #ffffff;
         }
         </style>
         """, unsafe_allow_html=True)
 
-        cols = st.columns(4, gap="small")
+        st.markdown(
+            f'<div class="ss-stats-grid">{stats_html}</div>',
+            unsafe_allow_html=True,
+        )
 
-        for col, (name, value) in zip(cols, stats):
-            with col:
-                st.markdown(
-                    f'<div class="ss-stat-card">'
-                    f'<div class="ss-stat-label">{escape(name)}</div>'
-                    f'<div class="ss-stat-value">{value}</div>'
-                    f'</div>',
-                    unsafe_allow_html=True,
-                )
 
 
         # Nový zápas
