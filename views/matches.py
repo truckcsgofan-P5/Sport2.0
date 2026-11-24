@@ -593,24 +593,4 @@ def render():
                         st.rerun()
 
 
-                with st.expander("Smazat zápas", expanded=False):
-                    st.warning(
-                        "Tato akce je nevratná. "
-                        "Zápas bude odstraněn z databáze."
-                    )
-
-                    confirm_delete = st.checkbox(
-                        "Opravdu chci tento zápas smazat.",
-                        key=f"confirm_delete_{match.id}",
-                    )
-
-                    if st.button(
-                        "Smazat vybraný zápas",
-                        type="secondary",
-                        disabled=not confirm_delete,
-                        use_container_width=True,
-                    ):
-                        db.delete(match)
-                        db.commit()
-                        st.success("Zápas byl smazán.")
-                        st.rerun()
+                
