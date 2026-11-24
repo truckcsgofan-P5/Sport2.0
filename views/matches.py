@@ -452,81 +452,79 @@ def render():
             match = db.get(Match, edit_id)
 
             
+          
             if match is not None:
                 with st.expander("✎ Upravit vybraný zápas", expanded=True):
                     with st.container(key=f"edit_match_layout_{match.id}"):
                         with st.form(f"edit_match_{match.id}"):
 
-                        # Datum a stav zápasu
-                        date_col, status_col = st.columns([1.3, 1])
+                            date_col, status_col = st.columns([1.3, 1])
 
-                        new_date = date_col.date_input(
-                            "Datum zápasu",
-                            value=match.match_date,
-                            key=f"edit_date_{match.id}",
-                        )
+                            new_date = date_col.date_input(
+                                "Datum zápasu",
+                                value=match.match_date,
+                                key=f"edit_date_{match.id}",
+                            )
 
-                        new_played = status_col.checkbox(
-                            "Zápas je odehraný",
-                            value=match.played,
-                            key=f"edit_played_{match.id}",
-                        )
+                            new_played = status_col.checkbox(
+                                "Zápas je odehraný",
+                                value=match.played,
+                                key=f"edit_played_{match.id}",
+                            )
 
-                        home_current = next(
-                            t.name for t in teams
-                            if t.id == match.home_team_id
-                        )
-                        away_current = next(
-                            t.name for t in teams
-                            if t.id == match.away_team_id
-                        )
+                            home_current = next(
+                                t.name for t in teams
+                                if t.id == match.home_team_id
+                            )
+                            away_current = next(
+                                t.name for t in teams
+                                if t.id == match.away_team_id
+                            )
 
-                        # Výběr týmů
-                        ec1, ec2 = st.columns(2)
+                            ec1, ec2 = st.columns(2)
 
-                        new_home = ec1.selectbox(
-                            "Domácí tým",
-                            team_names,
-                            index=team_names.index(home_current),
-                            key=f"edit_home_{match.id}",
-                        )
+                            new_home = ec1.selectbox(
+                                "Domácí tým",
+                                team_names,
+                                index=team_names.index(home_current),
+                                key=f"edit_home_{match.id}",
+                            )
 
-                        new_away = ec2.selectbox(
-                            "Hostující tým",
-                            team_names,
-                            index=team_names.index(away_current),
-                            key=f"edit_away_{match.id}",
-                        )
+                            new_away = ec2.selectbox(
+                                "Hostující tým",
+                                team_names,
+                                index=team_names.index(away_current),
+                                key=f"edit_away_{match.id}",
+                            )
 
-                        # Výsledek
-                        sc1, sc2 = st.columns(2)
+                            sc1, sc2 = st.columns(2)
 
-                        new_hs = sc1.number_input(
-                            "Góly domácích",
-                            min_value=0,
-                            value=match.home_score or 0,
-                            step=1,
-                            key=f"edit_hs_{match.id}",
-                        )
+                            new_hs = sc1.number_input(
+                                "Góly domácích",
+                                min_value=0,
+                                value=match.home_score or 0,
+                                step=1,
+                                key=f"edit_hs_{match.id}",
+                            )
 
-                        new_as = sc2.number_input(
-                            "Góly hostů",
-                            min_value=0,
-                            value=match.away_score or 0,
-                            step=1,
-                            key=f"edit_as_{match.id}",
-                        )
+                            new_as = sc2.number_input(
+                                "Góly hostů",
+                                min_value=0,
+                                value=match.away_score or 0,
+                                step=1,
+                                key=f"edit_as_{match.id}",
+                            )
 
-                        new_notes = st.text_input(
-                            "Poznámka",
-                            value=match.notes or "",
-                            key=f"edit_notes_{match.id}",
-                        )
+                            new_notes = st.text_input(
+                                "Poznámka",
+                                value=match.notes or "",
+                                key=f"edit_notes_{match.id}",
+                            )
 
-                        save = st.form_submit_button(
-                            "💾 Uložit změny",
-                            use_container_width=True,
-                        )
+                            save = st.form_submit_button(
+                                "💾 Uložit změny",
+                                use_container_width=True,
+                            )
 
                     if save:
                         if new_home == new_away:
@@ -545,26 +543,22 @@ def render():
                             match.away_score = (
                                 int(new_as) if new_played else None
                             )
-
                             match.notes = new_notes.strip()
 
                             evaluation = db.scalar(
                                 select(PredictionEvaluation).where(
-                                    PredictionEvaluation.match_id
-                                    == match.id
+                                    PredictionEvaluation.match_id == match.id
                                 )
                             )
 
                             if evaluation is not None:
                                 if new_played:
-                                    evaluation.brier_score = (
-                                        calculate_brier_score(
-                                            evaluation.p_home,
-                                            evaluation.p_draw,
-                                            evaluation.p_away,
-                                            match.home_score,
-                                            match.away_score,
-                                        )
+                                    evaluation.brier_score = calculate_brier_score(
+                                        evaluation.p_home,
+                                        evaluation.p_draw,
+                                        evaluation.p_away,
+                                        match.home_score,
+                                        match.away_score,
                                     )
                                 else:
                                     evaluation.brier_score = None
@@ -574,13 +568,35 @@ def render():
                             if evaluation is not None and new_played:
                                 st.success(
                                     "Výsledek uložen. "
-                                    f"Brier skóre: "
-                                    f"{evaluation.brier_score:.4f}."
+                                    f"Brier skóre: {evaluation.brier_score:.4f}."
                                 )
                             else:
                                 st.success("Změny byly uloženy.")
 
                             st.rerun()
+
+                with st.expander("🗑 Smazat zápas", expanded=False):
+                    st.warning(
+                        "Tato akce je nevratná. "
+                        "Zápas bude odstraněn z databáze."
+                    )
+
+                    confirm_delete = st.checkbox(
+                        "Opravdu chci tento zápas smazat.",
+                        key=f"delete_confirm_{sid}_{match.id}",
+                    )
+
+                    if st.button(
+                        "Smazat vybraný zápas",
+                        type="secondary",
+                        disabled=not confirm_delete,
+                        use_container_width=True,
+                    ):
+                        db.delete(match)
+                        db.commit()
+                        st.success("Zápas byl smazán.")
+                        st.rerun()
+
 
                 # Mazání zápasu
                 with st.expander("🗑 Smazat zápas", expanded=False):
