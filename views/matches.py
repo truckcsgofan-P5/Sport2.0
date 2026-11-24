@@ -127,17 +127,37 @@ def render():
         }
     }
     
-    /* Mobilní rozložení pouze pro úpravu zápasu */
+    
+/* Mobilní formulář – stabilní dva sloupce */
 [class*="st-key-edit_match_layout_"] [data-testid="stHorizontalBlock"] {
-    flex-wrap: nowrap !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 10px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
 
 [class*="st-key-edit_match_layout_"] [data-testid="column"] {
+    width: 100% !important;
     min-width: 0 !important;
-    flex: 1 1 0 !important;
-    width: 0 !important;
+    max-width: 100% !important;
+    flex: none !important;
+    box-sizing: border-box !important;
 }
+
+[class*="st-key-edit_match_layout_"] [data-testid="column"] > div {
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+[class*="st-key-edit_match_layout_"] input,
+[class*="st-key-edit_match_layout_"] [data-testid="stSelectbox"],
+[class*="st-key-edit_match_layout_"] [data-testid="stNumberInput"] {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
     
     
     </style>
