@@ -141,7 +141,7 @@ def apply_styles():
     .login-wrap h1 span {{ color:{accent}; }}
     .login-wrap p {{ color:{muted}; }}
     @media (max-width: 700px) {{
-        .block-container {{ padding-left: .85rem; padding-right: .85rem; padding-top: .85rem; }}
+        .block-container {{ padding-left: .85rem; padding-right: .85rem; padding-top: 5rem !important; }}
         .ss-hero {{ padding: 1.05rem; border-radius: 16px; margin-bottom: .8rem; }}
         .ss-hero-kicker {{ font-size: .58rem; letter-spacing: .14em; }}
         .ss-hero-title {{ font-size: 1.55rem; margin: .25rem 0; }}
