@@ -452,9 +452,10 @@ def render():
             match = db.get(Match, edit_id)
 
             
-            if match is not None:
+                        if match is not None:
                 with st.expander("✎ Upravit vybraný zápas", expanded=True):
-                    with st.form(f"edit_match_{match.id}"):
+                    with st.container(key=f"edit_match_layout_{match.id}"):
+                        with st.form(f"edit_match_{match.id}"):
 
                         # Datum a stav zápasu
                         date_col, status_col = st.columns([1.3, 1])
